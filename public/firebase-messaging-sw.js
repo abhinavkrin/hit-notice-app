@@ -6,9 +6,7 @@ importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js');
 
 firebase.initializeApp({
   apiKey: "AIzaSyCnu-hVICmMu4NDtuEM9mLwnYSLQwa3MzM",
-  authDomain: "development-and-test-292807.firebaseapp.com",
   projectId: "development-and-test-292807",
-  storageBucket: "development-and-test-292807.appspot.com",
   messagingSenderId: "665244359453",
   appId: "1:665244359453:web:77f4712198c450f5a5dff4",
   measurementId: "G-X0XNYMJZSJ"
