@@ -1,9 +1,11 @@
-import { apiUrl, subscribeUrl } from "../config"
+import { apiUrl, MAX_PAGE, subscribeUrl } from "../config"
 
 export const loadNotices = async (page=1) => {
     if(isNaN(parseInt(page))){
         throw new Error("Page Not Found!");
     }
+    if(!(page >=1 && page <= MAX_PAGE))
+      throw new Error("Inavlid Page Number");
     const response = await fetch(`${apiUrl}?page=${page}`);
     if(!response.ok)
         throw new Error("Failed to load notices.")

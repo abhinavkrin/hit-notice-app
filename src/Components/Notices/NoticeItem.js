@@ -5,17 +5,22 @@ import Notice from '../../Model/Notice';
 
 function NoticeItem({notice= new Notice({})}){
     return (
-        <div className="container border rounded m-2">
+        <div className="container notice-card ">
             <div className="row">
-                <div className="col-12">{notice.name}</div>
-            </div>
-            <div className="row">
-                <div className="col-12">{notice.date}</div>
-            </div>
-            
-            <div className="row">
-                <div className="col-12">
-                    <a href={notice.url}>download</a>
+                <div className="col-12 col-md-8 p-md-1">
+                    <span className="notice-title">
+                        {notice.name}
+                    </span>
+                </div>
+                <div className="col-12 col-md-2 p-md-1">
+                    <span className="notice-date">
+                        {notice.date}
+                    </span>
+                </div>
+                <div className="col-12 col-md-2 p-md-1 d-flex justify-content-center">
+                    <a href={notice.url}>
+                        <button className="notice-download">DOWNLOAD</button>
+                    </a>
                 </div>
             </div>
         </div>

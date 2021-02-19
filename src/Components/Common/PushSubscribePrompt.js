@@ -53,20 +53,21 @@ function PushSubscribePromt(){
         return <div/>
     else 
     return (
-        <div className="w-100 text-white pl-2 pr-2 pt-1 pb-1" style={{backgroundColor: "#00796B"}}>
-            <div className="container">
+            <div className="container push-prompt">
                 <div className="row">
-                    <div className="col-12">
-                        <p>
-                            Enable push notification for new notices. Don't worry, <b>we won't spam</b>.
-                        </p>
-                        <button onClick={onEnableClick}>
-                            {retry? "Retry":(isSubscribing?"please wait...":"Enable")}
+                    <div className="col-12 d-flex justify-content-center align-items-center">
+                        <span className="pr-1 pl-1">
+                            Push notification for new notices:
+                        </span>
+                        <button onClick={onEnableClick} style={{color: retry?"red":""}} className="cbutton">
+                            {retry? 
+                                "RETRY":
+                                (isSubscribing?"PLEASE WAIT...":"ENABLE")
+                            }
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
     )
 }
 

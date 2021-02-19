@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { loadNotices } from '../../functions/api';
 import Loader from '../Common/Loader';
+import ErrorBox from './ErrorBox';
 import NoticeItem from './NoticeItem';
+import Pagination from './Pagination';
 
 function NoticeList({page=1}){
     const p = parseInt(page);
@@ -25,33 +26,28 @@ function NoticeList({page=1}){
             });
     },[page])
     if(isLoading){
-        return <Loader/>
+        return (
+          <div className="container height-fill d-flex pt-5">
+            <Loader/>
+          </div>
+        )
     } 
     else if(error){
         return (
-            <>
-                <div>{error}</div>
-                <div className="w-100 d-flex justify-content-between mr-auto ml-auto" style={{maxWidth: "300px"}}>
-                    <span>
-                        <Link to={"/page/"+(p-1)}>
-                            Previous
-                        </Link>
-                    </span>
-                    <span>
-                        Page {p}
-                    </span>
-                    <span>
-                        <Link to={"/page/"+(p+1)}>
-                            Next
-                        </Link>
-                    </span>
-                </div>
-            </>
+            <div className="container height-fill">
+                <div className="pb-3"></div>
+                <ErrorBox/>
+                <div className="pb-5 pt-2"></div>
+                <Pagination page={p}/>
+            </div>
         )
     }
     else {
         return (
             <>
+                <div className="notice-card">
+                  <h3 className="text-center">PAGE {page}</h3>
+                </div>
                 <div className="w-100">
                     {notices.map(
                         notice => (
@@ -59,21 +55,7 @@ function NoticeList({page=1}){
                         )
                     )}
                 </div>
-                <div className="w-100 d-flex justify-content-between mr-auto ml-auto" style={{maxWidth: "300px"}}>
-                    <span>
-                        <Link to={"/page/"+(p-1)}>
-                            Previous
-                        </Link>
-                    </span>
-                    <span>
-                        Page {p}
-                    </span>
-                    <span>
-                        <Link to={"/page/"+(p+1)}>
-                            Next
-                        </Link>
-                    </span>
-                </div>
+                <Pagination page={p}/>
             </>
         )
     }
