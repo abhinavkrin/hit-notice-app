@@ -8,7 +8,6 @@ function Header(){
             <nav className="navbar navbar-expand-lg navbar-light" role="navigation" itemScope="" itemType="http://schema.org/SiteNavigationElement">
                 <div className="container-fluid d-flex justify-content-center">
                     <Link className="navbar-brand" to="/">
-                        {/* <img height="40" src="https://tournify.in/svgs/logo.svg" alt="logo" className="nav-logo"/> */}
                         {APP_NAME}
                     </Link>
                 </div>
