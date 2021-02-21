@@ -19,6 +19,11 @@ function PushSubscribePromt(){
             if(Notification.permission === 'denied'){
                 setBlocked(true);
             }
+
+            if(Notification.permission !== "granted" && isTokenSentToServer()){
+                window.localStorage.setItem('isTokenSentToServer',false);
+                setSubscribed(false);
+            }
         }
         if(!isFCMSupported)
             setFcmSupported(false);
