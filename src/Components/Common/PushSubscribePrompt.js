@@ -15,9 +15,10 @@ function PushSubscribePromt(){
             if((Notification.permission === "granted" && isTokenSentToServer())){
                 setSubscribed(true);
             }
-        }
-        if(Notification.permission === 'denied'){
-            setBlocked(true);
+            
+            if(Notification.permission === 'denied'){
+                setBlocked(true);
+            }
         }
         if(!isFCMSupported)
             setFcmSupported(false);
@@ -55,15 +56,17 @@ function PushSubscribePromt(){
     }
 
     if(blocked || !fcmSupported){
-        <div className="container push-prompt">
-            <div className="row">
-                <div className="col-12 d-flex justify-content-center align-items-center">
-                    <span className="pr-1 pl-1">
-                        Push notification blocked or not supported.
-                    </span>
+        return (
+            <div className="container push-prompt">
+                <div className="row">
+                    <div className="col-12 d-flex justify-content-center align-items-center">
+                        <span className="pr-1 pl-1">
+                            Push notification blocked or not supported.
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
+        )
     }
     else if(isSubscribed){
         return (
