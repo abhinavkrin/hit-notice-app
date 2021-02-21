@@ -54,16 +54,12 @@ function PushSubscribePromt(){
         }
     }
 
-    if(!fcmSupported){
-        console.log("FCM not supported or blocked");
-        return <div/>;
-    }
-    else if(blocked){
+    if(blocked || !fcmSupported){
         <div className="container push-prompt">
             <div className="row">
                 <div className="col-12 d-flex justify-content-center align-items-center">
                     <span className="pr-1 pl-1">
-                        Permission is denied for push notification.
+                        Push notification blocked or not supported.
                     </span>
                 </div>
             </div>
