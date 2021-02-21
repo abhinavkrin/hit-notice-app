@@ -1,57 +1,89 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { isFCMSupported, myFirebase, VAPID } from '../../firebase';
 import { isTokenSentToServer, saveTokenServerState, subscribeToNoticeNotification } from '../../functions/api';
 
 function PushSubscribePromt(){
-    let show = true;
-     
-    if('Notification' in window){
-        if((Notification.permission === "granted" && isTokenSentToServer()) || Notification.permission === "denied"){
-            show=false;
-        }
-    } else {
-        show = false;
-    }
-
-    const [isOpen,setIsOpen] = useState(show);
+    
     const [retry,setRetry] = useState(false);
     const [isSubscribing,setSubscribing] = useState(false);
-
-    if(!isFCMSupported){
-        console.log("FCM not supported. FCM request for permission skipped.");
-        return <div/>;
-    }
+    const [isSubscribed,setSubscribed] = useState(false);
+    const [error,setError] = useState(null);
+    const [blocked,setBlocked] = useState(false);
+    const [fcmSupported,setFcmSupported] = useState(true);
+    useEffect(()=>{
+        if('Notification' in window){
+            if((Notification.permission === "granted" && isTokenSentToServer())){
+                setSubscribed(true);
+            }
+        }
+        if(Notification.permission === 'denied'){
+            setBlocked(true);
+        }
+        if(!isFCMSupported)
+            setFcmSupported(false);
+    },[])
 
     const onEnableClick = async () => {
         if(!myFirebase || isSubscribing)
             return;
         if('Notification' in window){
             setSubscribing(true);
+            setError(null);
             try {
                 const currentToken =  await myFirebase.messaging().getToken({vapidKey: VAPID});
                 if (currentToken) {
                     await subscribeToNoticeNotification(currentToken);
-                    setIsOpen(false);
                     setRetry(false);
                     saveTokenServerState(true);
                     setSubscribing(false);
+                    setSubscribed(true);
+                    setError(null);
                 } else if(Notification.permission === "default"){
                     // Show permission request.
-                    setIsOpen(true);
+                    setSubscribed(false);
                 }
             } catch(err){
-                console.log('An error occurred while retrieving token. ', err);
+                console.log('An error occurred while subscribing.')
+                console.error(err);
                 // showToken('Error retrieving registration token. ', err);
                 setRetry(true);
                 setSubscribing(false);
-                setIsOpen(false);
+                setSubscribed(false);
+                setError(err);
             }
         }
     }
 
-    if(!isOpen)
-        return <div/>
-    else 
+    if(!fcmSupported){
+        console.log("FCM not supported or blocked");
+        return <div/>;
+    }
+    else if(blocked){
+        <div className="container push-prompt">
+            <div className="row">
+                <div className="col-12 d-flex justify-content-center align-items-center">
+                    <span className="pr-1 pl-1">
+                        Permission is denied for push notification.
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+    else if(isSubscribed){
+        return (
+            <div className="container push-prompt">
+                <div className="row">
+                    <div className="col-12 d-flex justify-content-center align-items-center">
+                        <span className="pr-1 pl-1">
+                            Push notification for new notices:
+                        </span>
+                        <span style={{color: "green", fontWeight: "500"}}>ENABLED</span>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    else
     return (
             <div className="container push-prompt">
                 <div className="row">
@@ -66,6 +98,14 @@ function PushSubscribePromt(){
                             }
                         </button>
                     </div>
+                    {
+                        error &&
+                        <div className="col-12 notice-card ">
+                            <code style={{color: "red"}}>
+                                {error.stack}
+                            </code>
+                        </div>
+                    }
                 </div>
             </div>
     )
