@@ -49,6 +49,9 @@ function PushSubscribePromt(){
                     setSubscribed(false);
                 }
             } catch(err){
+                if(Notification.permission === 'denied'){
+                    setBlocked(true);
+                }
                 console.log('An error occurred while subscribing.')
                 console.error(err);
                 // showToken('Error retrieving registration token. ', err);
