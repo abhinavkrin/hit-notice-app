@@ -63,7 +63,7 @@ function PushSubscribePromt(){
     if(blocked || !fcmSupported){
         return (
             <div className="push-prompt">
-				<div className="d-flex justify-content-center align-items-center">
+				<div className="d-flex justify-content-between align-items-center">
 					<span className="pr-1 pl-1">
 						Push notification blocked or not supported.
 					</span>
@@ -74,7 +74,7 @@ function PushSubscribePromt(){
     else if(isSubscribed){
         return (
             <div className="push-prompt">
-				<div className="d-flex justify-content-center align-items-center">
+				<div className="d-flex justify-content-between align-items-center">
 					<span className="pr-1 pl-1">
 						Push notification for new notices:
 					</span>
