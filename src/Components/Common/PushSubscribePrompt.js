@@ -62,36 +62,31 @@ function PushSubscribePromt(){
 
     if(blocked || !fcmSupported){
         return (
-            <div className="container push-prompt">
-                <div className="row">
-                    <div className="col-12 d-flex justify-content-center align-items-center">
-                        <span className="pr-1 pl-1">
-                            Push notification blocked or not supported.
-                        </span>
-                    </div>
-                </div>
+            <div className="push-prompt">
+				<div className="d-flex justify-content-center align-items-center">
+					<span className="pr-1 pl-1">
+						Push notification blocked or not supported.
+					</span>
+				</div>
             </div>
         )
     }
     else if(isSubscribed){
         return (
-            <div className="container push-prompt">
-                <div className="row">
-                    <div className="col-12 d-flex justify-content-center align-items-center">
-                        <span className="pr-1 pl-1">
-                            Push notification for new notices:
-                        </span>
-                        <span style={{color: "green", fontWeight: "500"}}>ENABLED</span>
-                    </div>
-                </div>
+            <div className="push-prompt">
+				<div className="d-flex justify-content-center align-items-center">
+					<span className="pr-1 pl-1">
+						Push notification for new notices:
+					</span>
+					<span style={{color: "green", fontWeight: "500"}}>ENABLED</span>
+				</div>
             </div>
         )
     }
     else
     return (
-            <div className="container push-prompt">
-                <div className="row">
-                    <div className="col-12 d-flex justify-content-center align-items-center">
+            <div className="push-prompt">
+                    <div className="d-flex justify-content-between align-items-center">
                         <span className="pr-1 pl-1">
                             Push notification for new notices:
                         </span>
@@ -104,13 +99,12 @@ function PushSubscribePromt(){
                     </div>
                     {
                         error &&
-                        <div className="col-12 notice-card ">
+                        <div className="notice-card ">
                             <code style={{color: "red"}}>
                                 {error.stack}
                             </code>
                         </div>
                     }
-                </div>
             </div>
     )
 }
